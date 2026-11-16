@@ -10,4 +10,5 @@ global using Microsoft.EntityFrameworkCore;
 global using System.Text.Json.Serialization;
 global using Market.Application.Common.Exceptions;
 global using Market.Domain.Entities.Identity;
+global using Market.Domain.Entities.Locations;
 global using Microsoft.AspNetCore.Identity;

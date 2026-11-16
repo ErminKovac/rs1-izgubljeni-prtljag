@@ -1,0 +1,114 @@
+<div class="container">
+  <!-- Header -->
+  <div class="header-card">
+    <div class="title-section">
+      <div class="title-icon"><mat-icon>location_city</mat-icon></div>
+      <div>
+        <h1>{{ 'LOCATIONS.CITIES.TITLE' | translate }}</h1>
+        <p class="subtitle">{{ 'LOCATIONS.CITIES.SUBTITLE' | translate }}</p>
+      </div>
+    </div>
+    <div class="actions">
+      <button mat-raised-button color="primary" type="button" (click)="onCreate()">
+        <mat-icon>add</mat-icon>
+        {{ 'LOCATIONS.CITIES.NEW' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <section class="table-card">
+    <!-- Filteri -->
+    <div class="table-toolbar">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search-field">
+        <mat-label>{{ 'COMMON.SEARCH' | translate }}</mat-label>
+        <input matInput [formControl]="searchControl" [placeholder]="'LOCATIONS.CITIES.SEARCH_HINT' | translate" />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-field">
+        <mat-label>{{ 'LOCATIONS.COUNTRY' | translate }}</mat-label>
+        <mat-select [formControl]="countryFilter">
+          <mat-option [value]="null">{{ 'COMMON.ALL' | translate }}</mat-option>
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    @if (errorMessage) {
+      <div class="state">
+        <p>{{ errorMessage }}</p>
+        <button mat-stroked-button color="primary" type="button" (click)="loadPagedData()">
+          <mat-icon>refresh</mat-icon>
+          {{ 'COMMON.RETRY' | translate }}
+        </button>
+      </div>
+    } @else {
+      <table mat-table [dataSource]="items" [class.loading]="isLoading">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.NAME' | translate }}</th>
+          <td mat-cell *matCellDef="let city">{{ city.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="postalCode">
+          <th mat-header-cell *matHeaderCellDef>{{ 'LOCATIONS.CITIES.POSTAL_CODE' | translate }}</th>
+          <td mat-cell *matCellDef="let city">
+            @if (city.postalCode) {
+              {{ city.postalCode }}
+            } @else {
+              <span class="muted">–</span>
+            }
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="country">
+          <th mat-header-cell *matHeaderCellDef>{{ 'LOCATIONS.COUNTRY' | translate }}</th>
+          <td mat-cell *matCellDef="let city">
+            {{ city.countryName }} <span class="muted">({{ city.countryIsoCode }})</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="airportsCount">
+          <th mat-header-cell *matHeaderCellDef>{{ 'LOCATIONS.CITIES.AIRPORTS_COUNT' | translate }}</th>
+          <td mat-cell *matCellDef="let city">{{ city.airportsCount }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>{{ 'COMMON.ACTIONS' | translate }}</th>
+          <td mat-cell *matCellDef="let city">
+            <button
+              mat-icon-button
+              color="primary"
+              type="button"
+              (click)="onEdit(city)"
+              [matTooltip]="'COMMON.EDIT' | translate"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              type="button"
+              (click)="onDelete(city)"
+              [matTooltip]="'COMMON.DELETE' | translate"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell no-data" [attr.colspan]="displayedColumns.length">
+            {{ (isLoading ? 'COMMON.LOADING' : 'LOCATIONS.NO_DATA') | translate }}
+          </td>
+        </tr>
+      </table>
+
+      <app-fit-paginator-bar [vm]="this" />
+    }
+  </section>
+</div>
