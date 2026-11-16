@@ -156,7 +156,11 @@
       "SETTINGS": "Settings",
       "MY_PROFILE": "My profile",
       "LOGOUT": "Logout",
-      "EXCHANGE_RATES": "Exchange rates"
+      "EXCHANGE_RATES": "Exchange rates",
+      "LOCATIONS": "LOCATIONS",
+      "COUNTRIES": "Countries",
+      "CITIES": "Cities",
+      "AIRPORTS": "Airports"
     }
   },
   "ADMIN_SETTINGS": {
@@ -182,6 +186,55 @@
     "DELETED": "The rate was deleted.",
     "DELETE_TITLE": "Delete rate",
     "DELETE_MESSAGE": "Are you sure you want to delete this {{code}} rate? Conversions for that period will use the previous rate."
+  },
+  "LOCATIONS": {
+    "COUNTRY": "Country",
+    "CITY": "City",
+    "NO_DATA": "No data to display",
+    "DELETE_FAILED": "Delete is not possible",
+    "COUNTRIES": {
+      "TITLE": "Countries",
+      "SUBTITLE": "Country list. A country that has cities cannot be deleted.",
+      "NEW": "New country",
+      "SEARCH_HINT": "Name or ISO code",
+      "ISO_CODE": "ISO code",
+      "ISO_CODE_HINT": "Two letters, e.g. BA",
+      "ISO_CODE_FORMAT": "The ISO code must have exactly 2 letters (e.g. BA).",
+      "CITIES_COUNT": "Cities",
+      "CREATE_TITLE": "New country",
+      "EDIT_TITLE": "Edit country",
+      "CREATED": "The country has been added.",
+      "UPDATED": "The country has been saved.",
+      "DELETED": "The country has been deleted."
+    },
+    "CITIES": {
+      "TITLE": "Cities",
+      "SUBTITLE": "City list. A city that has airports cannot be deleted.",
+      "NEW": "New city",
+      "SEARCH_HINT": "Name or postal code",
+      "POSTAL_CODE": "Postal code",
+      "AIRPORTS_COUNT": "Airports",
+      "CREATE_TITLE": "New city",
+      "EDIT_TITLE": "Edit city",
+      "CREATED": "The city has been added.",
+      "UPDATED": "The city has been saved.",
+      "DELETED": "The city has been deleted."
+    },
+    "AIRPORTS": {
+      "TITLE": "Airports",
+      "SUBTITLE": "Airports used in flights and baggage reports.",
+      "NEW": "New airport",
+      "SEARCH_HINT": "Name, IATA code or city",
+      "IATA_CODE": "IATA code",
+      "IATA_CODE_HINT": "Three letters, e.g. SJJ",
+      "IATA_CODE_FORMAT": "The IATA code must have exactly 3 letters (e.g. SJJ).",
+      "SELECT_COUNTRY_FIRST": "Select a country first",
+      "CREATE_TITLE": "New airport",
+      "EDIT_TITLE": "Edit airport",
+      "CREATED": "The airport has been added.",
+      "UPDATED": "The airport has been saved.",
+      "DELETED": "The airport has been deleted."
+    }
   },
   "COMMON": {
     "YES": "Yes",

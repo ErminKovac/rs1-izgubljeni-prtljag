@@ -1,4 +1,5 @@
 ﻿using Market.Domain.Entities.Finance;
+using Market.Domain.Entities.Locations;
 
 namespace Market.Infrastructure.Database.Seeders;
 
@@ -15,6 +16,7 @@ public static class StaticDataSeeder
     public static void Seed(ModelBuilder modelBuilder)
     {
         SeedCurrencies(modelBuilder);
+        SeedLocations(modelBuilder);
     }
 
     /// <summary>
@@ -43,5 +45,44 @@ public static class StaticDataSeeder
                 Source = "CBBiH (fiksni kurs)",
                 CreatedAtUtc = SeedDateUtc
             });
+    }
+
+    /// <summary>
+    /// Countries, cities and airports (issue #2). They are reference data like currencies:
+    /// lost baggage reports and flights need airports in every environment, also in production,
+    /// so they go into the migration. The administrator adds more through the admin pages.
+    /// Order matters only for readability: EF inserts countries before cities and cities before airports (FK).
+    /// </summary>
+    private static void SeedLocations(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CountryEntity>().HasData(
+            new CountryEntity { Id = 1, Name = "Bosna i Hercegovina", IsoCode = "BA", CreatedAtUtc = SeedDateUtc },
+            new CountryEntity { Id = 2, Name = "Hrvatska", IsoCode = "HR", CreatedAtUtc = SeedDateUtc },
+            new CountryEntity { Id = 3, Name = "Srbija", IsoCode = "RS", CreatedAtUtc = SeedDateUtc },
+            new CountryEntity { Id = 4, Name = "Austrija", IsoCode = "AT", CreatedAtUtc = SeedDateUtc },
+            new CountryEntity { Id = 5, Name = "Njemačka", IsoCode = "DE", CreatedAtUtc = SeedDateUtc },
+            new CountryEntity { Id = 6, Name = "Turska", IsoCode = "TR", CreatedAtUtc = SeedDateUtc });
+
+        modelBuilder.Entity<CityEntity>().HasData(
+            new CityEntity { Id = 1, Name = "Sarajevo", PostalCode = "71000", CountryId = 1, CreatedAtUtc = SeedDateUtc },
+            new CityEntity { Id = 2, Name = "Tuzla", PostalCode = "75000", CountryId = 1, CreatedAtUtc = SeedDateUtc },
+            new CityEntity { Id = 3, Name = "Mostar", PostalCode = "88000", CountryId = 1, CreatedAtUtc = SeedDateUtc },
+            new CityEntity { Id = 4, Name = "Banja Luka", PostalCode = "78000", CountryId = 1, CreatedAtUtc = SeedDateUtc },
+            new CityEntity { Id = 5, Name = "Zagreb", PostalCode = "10000", CountryId = 2, CreatedAtUtc = SeedDateUtc },
+            new CityEntity { Id = 6, Name = "Beograd", PostalCode = "11000", CountryId = 3, CreatedAtUtc = SeedDateUtc },
+            new CityEntity { Id = 7, Name = "Beč", PostalCode = "1010", CountryId = 4, CreatedAtUtc = SeedDateUtc },
+            new CityEntity { Id = 8, Name = "Frankfurt na Majni", PostalCode = "60311", CountryId = 5, CreatedAtUtc = SeedDateUtc },
+            new CityEntity { Id = 9, Name = "Istanbul", PostalCode = "34000", CountryId = 6, CreatedAtUtc = SeedDateUtc });
+
+        modelBuilder.Entity<AirportEntity>().HasData(
+            new AirportEntity { Id = 1, IataCode = "SJJ", Name = "Međunarodni aerodrom Sarajevo", CityId = 1, CreatedAtUtc = SeedDateUtc },
+            new AirportEntity { Id = 2, IataCode = "TZL", Name = "Međunarodni aerodrom Tuzla", CityId = 2, CreatedAtUtc = SeedDateUtc },
+            new AirportEntity { Id = 3, IataCode = "OMO", Name = "Međunarodni aerodrom Mostar", CityId = 3, CreatedAtUtc = SeedDateUtc },
+            new AirportEntity { Id = 4, IataCode = "BNX", Name = "Međunarodni aerodrom Banja Luka", CityId = 4, CreatedAtUtc = SeedDateUtc },
+            new AirportEntity { Id = 5, IataCode = "ZAG", Name = "Zračna luka Franjo Tuđman", CityId = 5, CreatedAtUtc = SeedDateUtc },
+            new AirportEntity { Id = 6, IataCode = "BEG", Name = "Aerodrom Nikola Tesla", CityId = 6, CreatedAtUtc = SeedDateUtc },
+            new AirportEntity { Id = 7, IataCode = "VIE", Name = "Aerodrom Beč-Schwechat", CityId = 7, CreatedAtUtc = SeedDateUtc },
+            new AirportEntity { Id = 8, IataCode = "FRA", Name = "Aerodrom Frankfurt", CityId = 8, CreatedAtUtc = SeedDateUtc },
+            new AirportEntity { Id = 9, IataCode = "IST", Name = "Aerodrom Istanbul", CityId = 9, CreatedAtUtc = SeedDateUtc });
     }
 }

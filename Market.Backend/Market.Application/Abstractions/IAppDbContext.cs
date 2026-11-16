@@ -1,4 +1,5 @@
 ﻿using Market.Domain.Entities.Finance;
+using Market.Domain.Entities.Locations;
 
 
 namespace Market.Application.Abstractions;
@@ -12,6 +13,10 @@ public interface IAppDbContext
 
     DbSet<CurrencyEntity> Currencies { get; }
     DbSet<ExchangeRateEntity> ExchangeRates { get; }
+
+    DbSet<CountryEntity> Countries { get; }
+    DbSet<CityEntity> Cities { get; }
+    DbSet<AirportEntity> Airports { get; }
 
     Task<int> SaveChangesAsync(CancellationToken ct);
 }

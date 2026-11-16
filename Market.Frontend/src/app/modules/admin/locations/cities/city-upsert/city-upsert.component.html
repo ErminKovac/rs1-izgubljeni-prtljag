@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>
+  {{ (isEditMode ? 'LOCATIONS.CITIES.EDIT_TITLE' : 'LOCATIONS.CITIES.CREATE_TITLE') | translate }}
+</h2>
+
+<mat-dialog-content>
+  @if (isLoading) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>{{ 'COMMON.LOADING' | translate }}</p>
+    </div>
+  } @else {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" id="city-form" class="upsert-form">
+      @if (errorMessage) {
+        <div class="error-banner" role="alert">
+          <mat-icon>error</mat-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'LOCATIONS.COUNTRY' | translate }}</mat-label>
+        <mat-select formControlName="countryId">
+          @for (c of countries; track c.id) {
+            <mat-option [value]="c.id">{{ c.name }} ({{ c.isoCode }})</mat-option>
+          }
+        </mat-select>
+        <mat-error><app-fit-field-error [control]="form.controls.countryId" /></mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'COMMON.NAME' | translate }}</mat-label>
+        <input matInput formControlName="name" [maxlength]="nameMaxLength" autocomplete="off" />
+        <mat-hint align="end">{{ form.controls.name.value.length }}/{{ nameMaxLength }}</mat-hint>
+        <mat-error><app-fit-field-error [control]="form.controls.name" /></mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{ 'LOCATIONS.CITIES.POSTAL_CODE' | translate }} ({{ 'COMMON.OPTIONAL' | translate }})</mat-label>
+        <input matInput formControlName="postalCode" [maxlength]="postalCodeMaxLength" autocomplete="off" />
+        <mat-error><app-fit-field-error [control]="form.controls.postalCode" /></mat-error>
+      </mat-form-field>
+    </form>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="onCancel()" [disabled]="isSaving">
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    form="city-form"
+    [disabled]="isLoading || isSaving"
+  >
+    @if (isSaving) {
+      <mat-spinner diameter="18"></mat-spinner>
+    }
+    {{ 'COMMON.SAVE' | translate }}
+  </button>
+</mat-dialog-actions>
